@@ -1,0 +1,14 @@
+{% load static %}
+{% for chat in chats %}
+    <div class="activity-row activity-row1 {% if chat.sender ==  request.user.username %}activity-l {% else %} activity-left{% endif %} ">
+        <div class="col-xs-3 activity-img text-center "><img src="{% static chat.sender.avatar %}" class="img-responsive" alt=""></div>
+        <div class="col-xs-9 activity-img1">
+            <div class="activity-desc-sub">
+                <p>{{ chat.content }}</p>
+                <span>{{ chat.sender }} {{ chat.time }}</span>
+            </div>
+            <input type="hidden" class="chat_id" value="{{chat.id}}"/>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Whistle</title>
+    {% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Novus Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Bootstrap Core CSS -->
+<link href="{% static "css/bootstrap.css" %}"  rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="{% static "Chat/css/style.css" %}" rel='stylesheet' type='text/css' />
+<!-- font CSS -->
+<!-- font-awesome icons -->
+<link href="{% static "Chat/css/font-awesome.css" %}" rel="stylesheet">
+<!-- //font-awesome icons -->
+ <!-- js-->
+<script src="{% static "Chat/js/jquery-1.11.1.min.js" %}"></script>
+<script src="{% static "Chat/js/modernizr.custom.js" %}"></script>
+<!--webfonts-->
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<!--//webfonts--> 
+<!--animate-->
+<link href="{% static "Chat/css/animate.css" %}" rel="stylesheet" type="text/css" media="all">
+<script src="{% static "Chat/js/wow.min.js" %}"></script>
+	<script>
+		 new WOW().init();
+	</script>
+<!--//end-animate-->
+<!--skycons-icons-->
+<script src="{% static "Chat/js/skycons.js" %}"></script>
+<!--//skycons-icons-->
+<!--circlechart-->
+<script src="{% static "Chat/js/jquery.circlechart.js" %}"></script>
+<!--circlechart-->
+<!-- Metis Menu -->
+<script src="{% static "Chat/js/metisMenu.min.js" %}"></script>
+<script src="{% static "Chat/js/custom.js" %}"></script>
+<link href="{% static "Chat/css/custom.css" %}"rel="stylesheet">
+<!--//Metis Menu -->
+</head> 
+<body class="cbp-spmenu-push" style="background-image:url({% static "Chat/images/bg.png" %});height:100%;margin:0;" >
+	<div class="main-content" >
+		<!-- main content start-->
+			<div class="main-page">
+				<div class="elements  row">
+					<div class="col-md-4 profile widget-shadow chat-mdl-grid ">
+						<h4 class="title3">Chat</h4>
+						<div class="scrollbar scrollbar1 list-group-item " id="scrolldIV" >
+
+                            {% for chat in object_list %}
+                                <div class="activity-row activity-row {% if chat.sender ==  request.user.username %}activity-left {% else %} activity-right{% endif %} ">
+								<div class="col-xs-3 activity-img text-center "><img src="{% static chat.sender.avatar %}" class="img-responsive" alt=""></div>
+								<div class="col-xs-9 activity-img1">
+									<div class="activity-desc-sub">
+										<p>{{ chat.content }}</p>
+										<span>消息来自：{{ chat.sender }}&nbsp; &nbsp;{{ chat.time }}</span>
+									</div>
+                                    <input type="hidden" class="chat_id" value="{{chat.id}}" />
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+                            {% endfor %}
+
+                        </div>
+						<div class="chat-bottom ">
+							<form id="chatForm" method="POST" >
+                                {% csrf_token %}
+                                {% load bootstrap3 %}
+                                <div class="form-group">
+								    <input type="text" name="content" id="content" placeholder="Reply" >
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn" value="发送" />
+                                    <input type="hidden" name="post_type" value="send_chat"/>
+                                </div>
+
+							</form>
+						</div>
+                        <script>
+                                $(function() {
+
+                                    updateMsg();
+                                    $("#chatForm").submit(function() {
+        //ajax 提交表单
+                                        $.post("./post/",
+                                            $('#chatForm').serialize(),
+                                            function(data) {
+                                            $("#content").val("");  //消息发送成功后清空内容框
+                                                 });
+                                        return false;       //阻止表单提交
+                                         });
+                                });
+                                function updateMsg() {
+                                    var div = document.getElementById('scrolldIV');
+                                    $.post(
+                                        "./post/",
+                                        {
+                                            post_type: "get_chat",
+                                            last_chat_id: $(".chat_id").last().val()
+                                        },
+                                        function(data) {
+                                            $('.list-group-item').append(data);    //解析返回的 xml
+                                             });
+                                    setTimeout("updateMsg()", 1000);        //每秒更新一次
+                                    div.scrollTop = div.scrollHeight;
+
+                                 }
+                        </script>
+					</div>
+					
+					<div class="clearfix"> </div>	
+				</div>
+				
+			</div>
+		
+		<!--footer-->
+		
+        <!--//footer-->
+	</div>
+	<!-- Classie -->
+		<script src="{% static "Chat/js/classie.js" %}"></script>
+		<script>
+			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+				showLeftPush = document.getElementById( 'showLeftPush' ),
+				body = document.body;
+				
+			showLeftPush.onclick = function() {
+				classie.toggle( this, 'active' );
+				classie.toggle( body, 'cbp-spmenu-push-toright' );
+				classie.toggle( menuLeft, 'cbp-spmenu-open' );
+				disableOther( 'showLeftPush' );
+			};
+			
+			function disableOther( button ) {
+				if( button !== 'showLeftPush' ) {
+					classie.toggle( showLeftPush, 'disabled' );
+				}
+			}
+		</script>
+	<!--scrolling js-->
+	<script src="{% static "Chat/js/jquery.nicescroll.js" %}"></script>
+	<script src="{% static "Chat/js/scripts.js" %}"></script>
+	<!--//scrolling js-->
+	<!-- Bootstrap Core JavaScript -->
+   <script src="{% static "Chat/js/bootstrap.js" %}"> </script>
+</body>
+</html>
