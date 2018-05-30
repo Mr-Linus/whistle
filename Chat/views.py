@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponse, render, redirect
+from django.shortcuts import HttpResponse, render, redirect ,Http404
 from django.views.generic import ListView
 from Chat.models import Chat
 from django.views.decorators.csrf import csrf_exempt
@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class ChatView(ListView,LoginRequiredMixin):
     model = Chat
     template_name = 'Chat/chat.html'
+
 
 @csrf_exempt
 def post(request):
@@ -26,4 +27,4 @@ def post(request):
             chats = Chat.objects.filter(id__gt = last_chat_id)
             return render(request, 'Chat/chat_update.html', {'chats': chats})
     else:
-        raise redirect('login/')
+        raise Http404

@@ -20,6 +20,7 @@ class user_logout_view(LogoutView):
     template_name = 'User/login.html'
     next_page = '/login'
 
+
 @csrf_exempt
 def user_adduser_view(request):
     template_name = 'User/sign-up.html'
@@ -34,3 +35,5 @@ def user_adduser_view(request):
             if add_form.clean_password2():
                 add_form.save(commit=True)
         return redirect('/login')
+
+

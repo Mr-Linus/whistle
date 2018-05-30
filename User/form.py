@@ -21,5 +21,7 @@ class CreationForm(UserCreationForm):
                   'sex',
                   ]
         labels = { 'sex': '性别', }
+        help_texts = {'email': '用于获取你的Gravatar.com网站的头像.如果您没有使用,请立即注册', }
+
 
 

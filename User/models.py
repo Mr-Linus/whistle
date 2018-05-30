@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
+from django.utils.translation import gettext_lazy as _
+import hashlib
 import random
 # from django.utils.timezone import now
 # Create your models here.
@@ -42,10 +44,13 @@ class User(AbstractUser):
         ('M', '男'),
         ('U','未知')
     )
+    email = models.EmailField(_('email address'), blank=True)
     QQ = models.CharField(default='', max_length=60)
     status = models.BooleanField(default=False, verbose_name="Status")
     sex = models.CharField(max_length=2, choices=GENDER_CHOICES, default='M')
-    avatar = models.CharField(max_length=20, default='images/1.png')
     objects = ShadowUserManager()
+
+    def get_avatar(self):
+        return hashlib.md5(self.email.encode()).hexdigest()
 
 

@@ -1,11 +1,11 @@
 {% load static %}
 {% for chat in chats %}
-    <div class="activity-row activity-row1 {% if chat.sender ==  request.user.username %}activity-l {% else %} activity-left{% endif %} ">
-        <div class="col-xs-3 activity-img text-center "><img src="{% static chat.sender.avatar %}" class="img-responsive" alt=""></div>
+    <div class="activity-row activity-row1  activity-left ">
+        <div class="col-xs-3 activity-img text-center "><img src="https://www.gravatar.com/avatar/{{ chat.get_avatar }}?s=60&d=404&d=wavatar" class="img-responsive" alt=""></div>
         <div class="col-xs-9 activity-img1">
             <div class="activity-desc-sub">
                 <p>{{ chat.content }}</p>
-                <span>{{ chat.sender }} {{ chat.time }}</span>
+                <span>消息来自：{{ chat.sender }} &nbsp; &nbsp; &nbsp; &nbsp;{{ chat.time }}</span>
             </div>
             <input type="hidden" class="chat_id" value="{{chat.id}}"/>
         </div>
