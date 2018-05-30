@@ -3,10 +3,11 @@ from django.views.generic import ListView
 from Chat.models import Chat
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
 
 
-class ChatView(ListView,LoginRequiredMixin):
+class ChatView(LoginRequiredMixin, ListView):
     model = Chat
     template_name = 'Chat/chat.html'
 
