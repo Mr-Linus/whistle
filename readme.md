@@ -1,6 +1,7 @@
 ### Whistle
 
 基于Django 开发的 Ajax IM聊天室
+
 ![build](https://www.travis-ci.org/Mr-Linus/whistle.svg?branch=master)
 
 #### 前端
