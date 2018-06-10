@@ -1,0 +1,10 @@
+sudo: required
+language: python 
+python:
+  - "3.6"
+os:
+  - linux
+install: 
+  - pip install django django-bootstrap3
+script: 
+  - python manage.py test
